@@ -1,0 +1,31 @@
+{
+    "name": "lifeonscreen/nova-google2fa",
+    "description": "This package provides Google2FA to Laravel Nova.",
+    "keywords": [
+        "laravel",
+        "nova"
+    ],
+    "license": "MIT",
+    "require": {
+        "php": ">=7.1.0",
+        "bacon/bacon-qr-code": "^2.0",
+        "pragmarx/google2fa-laravel": "^0.2.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Lifeonscreen\\Google2fa\\": "src/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Lifeonscreen\\Google2fa\\ToolServiceProvider"
+            ]
+        }
+    },
+    "config": {
+        "sort-packages": true
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
+}
