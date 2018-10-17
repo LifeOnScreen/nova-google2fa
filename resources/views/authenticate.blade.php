@@ -21,6 +21,14 @@
             border-radius: 0 !important;
         }
     </style>
+    <script>
+        function checkAutoSubmit(el) {
+            if (el.value.length === 6) {
+                document.getElementById('authenticate_form').submit();
+            }
+        }
+
+    </script>
 </head>
 <body class="bg-40 text-black h-full">
 <div class="h-full">
@@ -29,7 +37,8 @@
             @include('nova::partials.logo')
         </div>
 
-        <form class="bg-white shadow rounded-lg p-8 max-w-xl mx-auto" method="POST" action="/los/2fa/authenticate">
+        <form id="authenticate_form" class="bg-white shadow rounded-lg p-8 max-w-xl mx-auto" method="POST"
+              action="/los/2fa/authenticate">
             <h2 class="p-2">Two Factor Authentication</h2>
 
             <p class="p-2">Two factor authentication (2FA) strengthens access security by requiring two methods (also
@@ -59,7 +68,7 @@
                     <div id="secret_div">
                         <label class="block font-bold mb-2" for="co">One Time Password</label>
                         <input class="form-control form-input form-input-bordered w-full" id="secret" type="number"
-                               name="secret" value="" autofocus="">
+                               name="secret" value="" onkeyup="checkAutoSubmit(this)" autofocus="">
                     </div>
                     <div id="recover_div" style="display: none;">
                         <label class="block font-bold mb-2" for="co">Recovery code</label>
