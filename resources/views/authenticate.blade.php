@@ -43,14 +43,29 @@
             <div class="text-center pt-3">
                 <div class="mb-6 w-1/2" style="display:inline-block">
                     @if (isset($error))
-                    <p class="text-center font-semibold text-danger my-3">
-                        {{  $error }}
-                    </p>
+                        <p id="error_text" class="text-center font-semibold text-danger my-3">
+                            {{  $error }}
+                            <button
+                                    onclick="
+                                        document.getElementById('secret_div').style.display = 'none';
+                                        document.getElementById('error_text').style.display = 'none';
+                                        document.getElementById('recover_div').style.display = 'block';
+                                    "
+                                    class="w-1/4 btn btn-default btn-primary hover:bg-primary-dark" type="button">
+                                Recover
+                            </button>
+                        </p>
                     @endif
-                    <label class="block font-bold mb-2" for="co">One Time Password</label>
-                    <input class="form-control form-input form-input-bordered w-full" id="secret" type="number"
-                           name="secret" value="" required="required" autofocus="">
-
+                    <div id="secret_div">
+                        <label class="block font-bold mb-2" for="co">One Time Password</label>
+                        <input class="form-control form-input form-input-bordered w-full" id="secret" type="number"
+                               name="secret" value="" autofocus="">
+                    </div>
+                    <div id="recover_div" style="display: none;">
+                        <label class="block font-bold mb-2" for="co">Recovery code</label>
+                        <input class="form-control form-input form-input-bordered w-full" id="recover" type="text"
+                               name="recover" value="" autofocus="">
+                    </div>
                 </div>
                 <button class="w-1/2 btn btn-default btn-primary hover:bg-primary-dark" type="submit">
                     Authenticate

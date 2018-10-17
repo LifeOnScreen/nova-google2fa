@@ -58,8 +58,6 @@
                     <input class="form-control form-input form-input-bordered w-full" id="secret" type="number"
                            name="secret" value="" required="required" autofocus="">
                 </div>
-
-
                 <button class="w-1/2 btn btn-default btn-primary hover:bg-primary-dark" type="submit">
                     Confirm
                 </button>

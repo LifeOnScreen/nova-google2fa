@@ -2,10 +2,11 @@
 
 namespace Lifeonscreen\Google2fa\Http\Middleware;
 
-use Lifeonscreen\Google2fa\Models\User2fa;
 use Closure;
 use Lifeonscreen\Google2fa\Google2FAAuthenticator;
+use Lifeonscreen\Google2fa\Models\User2fa;
 use PragmaRX\Google2FA\Google2FA as G2fa;
+use PragmaRX\Recovery\Recovery;
 
 /**
  * Class Google2fa
@@ -23,7 +24,8 @@ class Google2fa
      */
     public function handle($request, Closure $next)
     {
-        if ($request->path() == 'los/2fa/confirm' || $request->path() == 'los/2fa/authenticate') {
+        if ($request->path() === 'los/2fa/confirm' || $request->path() === 'los/2fa/authenticate'
+            || $request->path() === 'los/2fa/register') {
             return $next($request);
         }
         $authenticator = app(Google2FAAuthenticator::class)->boot($request);
@@ -33,23 +35,22 @@ class Google2fa
         if (empty(auth()->user()->user2fa) || auth()->user()->user2fa->google2fa_enable === 0) {
 
             $google2fa = new G2fa();
+            $recovery = new Recovery();
             $secretKey = $google2fa->generateSecretKey();
-            $google2fa->setAllowInsecureCallToGoogleApis(true);
+            $data['recovery'] = $recovery = $recovery
+                ->setCount(8)
+                ->setBlocks(3)
+                ->setChars(16)
+                ->toArray();
 
-            $google2fa_url = $google2fa->getQRCodeGoogleUrl(
-                config('app.name'),
-                auth()->user()->email,
-                $secretKey
-            );
-
-            $data['google2fa_url'] = $google2fa_url;
             User2fa::where('user_id', auth()->user()->id)->delete();
             User2fa::insert([
                 'user_id'          => auth()->user()->id,
                 'google2fa_secret' => $secretKey,
+                'recovery'         => json_encode($data['recovery']),
             ]);
 
-            return response(view('google2fa::register', $data));
+            return response(view('google2fa::recovery', $data));
         }
 
         return response(view('google2fa::authenticate'));
