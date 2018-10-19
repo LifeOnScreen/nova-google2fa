@@ -16,7 +16,6 @@ class ToolServiceProvider extends ServiceProvider
     public function boot()
     {
         $this->loadViewsFrom(__DIR__ . '/../resources/views', 'google2fa');
-        $this->loadMigrationsFrom(__DIR__ . '/../resources/database');
 
         // Publishing is only necessary when using the CLI.
         if ($this->app->runningInConsole()) {
@@ -24,6 +23,11 @@ class ToolServiceProvider extends ServiceProvider
             $this->publishes([
                 __DIR__ . '/../config/lifeonscreen2fa.php' => config_path('lifeonscreen2fa.php'),
             ], 'lifeonscreen2fa.config');
+
+            // Publishing the migrations.
+            $this->publishes([
+                __DIR__.'/../database/migrations/' => database_path('migrations')
+            ], 'migrations');
         }
 
         $this->app->booted(function () {

@@ -18,10 +18,8 @@ class CreateUser2faTable extends Migration
             $table->unsignedInteger('user_id');
             $table->boolean('google2fa_enable')->default(false);
             $table->string('google2fa_secret')->nullable();
-            $table->timestamp('created_at')
-                ->default(DB::raw('CURRENT_TIMESTAMP'));
-            $table->timestamp('updated_at')
-                ->default(DB::raw('CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP'));
+            $table->text('recovery')->nullable();
+            $table->timestamps();
 
             $table->foreign('user_id')
                 ->references('id')

@@ -6,16 +6,16 @@ Install via composer
 $ composer require lifeonscreen/nova-google2fa
 ```
 
+Publish config and migrations
+
+``` bash
+$ php artisan vendor:publish --provider="Lifeonscreen\Google2fa\ToolServiceProvider"
+```
+
 Run migrations
 
 ``` bash
 $ php artisan migrate
-```
-
-Publish config
-
-``` bash
-$ php artisan vendor:publish --provider="Lifeonscreen\Google2fa\ToolServiceProvider"
 ```
 
 Add relation to User model
