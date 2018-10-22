@@ -101,10 +101,10 @@ class Google2fa extends Tool
             $google2fa = new G2fa();
             $recovery = new Recovery();
             $secretKey = $google2fa->generateSecretKey();
-            $data['recovery'] = $recovery = $recovery
-                ->setCount(8)
-                ->setBlocks(3)
-                ->setChars(16)
+            $data['recovery'] = $recovery
+                ->setCount(config('lifeonscreen2fa.recovery_codes.count'))
+                ->setBlocks(config('lifeonscreen2fa.recovery_codes.blocks'))
+                ->setChars(config('lifeonscreen2fa.recovery_codes.chars_in_block'))
                 ->toArray();
 
             User2fa::where('user_id', auth()->user()->id)->delete();
