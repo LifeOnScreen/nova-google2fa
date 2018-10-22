@@ -24,6 +24,9 @@ class Google2fa
      */
     public function handle($request, Closure $next)
     {
+        if (!config('lifeonscreen2fa.enabled')) {
+            return $next($request);
+        }
         if ($request->path() === 'los/2fa/confirm' || $request->path() === 'los/2fa/authenticate'
             || $request->path() === 'los/2fa/register') {
             return $next($request);
@@ -37,10 +40,10 @@ class Google2fa
             $google2fa = new G2fa();
             $recovery = new Recovery();
             $secretKey = $google2fa->generateSecretKey();
-            $data['recovery'] = $recovery = $recovery
-                ->setCount(8)
-                ->setBlocks(3)
-                ->setChars(16)
+            $data['recovery'] = $recovery
+                ->setCount(config('lifeonscreen2fa.recovery_codes.count'))
+                ->setBlocks(config('lifeonscreen2fa.recovery_codes.blocks'))
+                ->setChars(config('lifeonscreen2fa.recovery_codes.chars_in_block'))
                 ->toArray();
 
             User2fa::where('user_id', auth()->user()->id)->delete();

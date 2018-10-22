@@ -20,15 +20,8 @@ class Google2fa extends Tool
     }
 
     /**
-     * Build the view that renders the navigation links for the tool.
-     *
-     * @return \Illuminate\View\View
+     * @return bool
      */
-    public function renderNavigation()
-    {
-        return view('google2fa::navigation');
-    }
-
     protected function is2FAValid()
     {
         $secret = Request::get('secret');
@@ -42,6 +35,10 @@ class Google2fa extends Tool
         return $google2fa->verifyKey(auth()->user()->user2fa->google2fa_secret, $secret);
     }
 
+    /**
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Http\RedirectResponse|\Illuminate\View\View
+     * @throws \PragmaRX\Google2FA\Exceptions\InsecureCallException
+     */
     public function confirm()
     {
         if ($this->is2FAValid()) {
@@ -68,6 +65,10 @@ class Google2fa extends Tool
         return view('google2fa::register', $data);
     }
 
+    /**
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     * @throws \PragmaRX\Google2FA\Exceptions\InsecureCallException
+     */
     public function register()
     {
         $google2fa = new G2fa();
@@ -85,6 +86,9 @@ class Google2fa extends Tool
 
     }
 
+    /**
+     * @return \Illuminate\Contracts\Routing\ResponseFactory|\Illuminate\Contracts\View\Factory|\Illuminate\Http\RedirectResponse|\Illuminate\Http\Response|\Illuminate\View\View
+     */
     public function authenticate()
     {
         if ($recover = Request::get('recover')) {
@@ -97,10 +101,10 @@ class Google2fa extends Tool
             $google2fa = new G2fa();
             $recovery = new Recovery();
             $secretKey = $google2fa->generateSecretKey();
-            $data['recovery'] = $recovery = $recovery
-                ->setCount(8)
-                ->setBlocks(3)
-                ->setChars(16)
+            $data['recovery'] = $recovery
+                ->setCount(config('lifeonscreen2fa.recovery_codes.count'))
+                ->setBlocks(config('lifeonscreen2fa.recovery_codes.blocks'))
+                ->setChars(config('lifeonscreen2fa.recovery_codes.chars_in_block'))
                 ->toArray();
 
             User2fa::where('user_id', auth()->user()->id)->delete();
