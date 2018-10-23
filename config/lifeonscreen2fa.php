@@ -8,13 +8,13 @@ return [
 
     'models' => [
         /**
-         * Change this variable to your User model.
+         * Change this variable to path to user model.
          */
         'user' => 'App\User',
     ],
     'tables' => [
         /**
-         * Table in witch users are stored.
+         * Table in which users are stored.
          */
         'user' => 'users',
     ],

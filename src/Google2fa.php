@@ -108,11 +108,12 @@ class Google2fa extends Tool
                 ->toArray();
 
             User2fa::where('user_id', auth()->user()->id)->delete();
-            User2fa::insert([
-                'user_id'          => auth()->user()->id,
-                'google2fa_secret' => $secretKey,
-                'recovery'         => json_encode($data['recovery']),
-            ]);
+
+            $user2fa = new User2fa();
+            $user2fa->user_id = auth()->user()->id;
+            $user2fa->google2fa_secret = $secretKey;
+            $user2fa->recovery = json_encode($data['recovery']);
+            $user2fa->save();
 
             return response(view('google2fa::recovery', $data));
         }
