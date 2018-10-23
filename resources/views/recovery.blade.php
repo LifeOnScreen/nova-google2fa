@@ -38,7 +38,7 @@
 
         <form class="bg-white shadow rounded-lg p-8 max-w-xl mx-auto" method="POST" action="/los/2fa/register">
             <h2 class="p-2">Recovery codes</h2>
-
+            @csrf
             <p class="p-2">
                 Recovery codes are used to access your account in the event you cannot recive two-factor
                 authentication codes.
