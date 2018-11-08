@@ -2,6 +2,40 @@
 
 This package enforces 2FA for Laravel Nova.
 
+## Upgrade from 0.0.7 to 1.0.0
+
+Upgrade guide is available [Here](docs/upgrade_to_1.0.0.md').
+
+## Flow
+
+### Activation
+
+- User gets recovery codes.
+
+![Recovery codes](docs/images/recovery-codes.png)
+
+- User activates 2FA on his device.
+
+![Activate 2FA](docs/images/register.png)
+
+### Verification
+
+- User verifies login with 2FA.
+
+![Enter 2FA](docs/images/enter-code.png)
+
+### Recovery
+
+- If user enters invalid code, recovery button is shown.
+
+![Enter 2FA](docs/images/invalid-code.png)
+
+- User enters recovery code.
+
+![Enter 2FA](docs/images/enter-recovery-code.png)
+
+- User is redirected to activation process.
+
 ## Installation
 
 Install via composer
@@ -60,13 +94,13 @@ return [
 
     'models' => [
         /**
-         * Change this variable to your User model.
+         * Change this variable to path to user model.
          */
         'user' => 'App\User',
     ],
     'tables' => [
         /**
-         * Table in witch users are stored.
+         * Table in which users are stored.
          */
         'user' => 'users',
     ],
@@ -86,6 +120,14 @@ return [
          * Number of characters in each block in recovery code.
          */
         'chars_in_block' => 16,
+
+        /**
+         * The following algorithms are currently supported:
+         *  - PASSWORD_DEFAULT
+         *  - PASSWORD_BCRYPT
+         *  - PASSWORD_ARGON2I // available from php 7.2
+         */
+        'hashing_algorithm' => PASSWORD_BCRYPT,
     ],
 ];
 ```
