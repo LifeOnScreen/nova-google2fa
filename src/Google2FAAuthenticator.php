@@ -2,7 +2,7 @@
 
 namespace Lifeonscreen\Google2fa;
 
-use App\Exceptions\ValidationException;
+use Exception;
 use PragmaRX\Google2FALaravel\Support\Authenticator;
 
 /**
@@ -21,13 +21,13 @@ class Google2FAAuthenticator extends Authenticator
 
     /**
      * @return mixed
-     * @throws ValidationException
+     * @throws Exception
      */
     protected function getGoogle2FASecretKey()
     {
         $secret = $this->getUser()->user2fa->{$this->config('otp_secret_column')};
         if (is_null($secret) || empty($secret)) {
-            throw new ValidationException('Secret key cannot be empty.');
+            throw new Exception('Secret key cannot be empty.');
         }
 
         return $secret;

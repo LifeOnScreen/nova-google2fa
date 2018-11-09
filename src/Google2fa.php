@@ -86,13 +86,24 @@ class Google2fa extends Tool
 
     }
 
+    private function isRecoveryValid($recover, $recoveryHashes)
+    {
+        foreach ($recoveryHashes as $recoveryHash) {
+            if (password_verify($recover, $recoveryHash)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
     /**
      * @return \Illuminate\Contracts\Routing\ResponseFactory|\Illuminate\Contracts\View\Factory|\Illuminate\Http\RedirectResponse|\Illuminate\Http\Response|\Illuminate\View\View
      */
     public function authenticate()
     {
         if ($recover = Request::get('recover')) {
-            if (in_array($recover, json_decode(auth()->user()->user2fa->recovery, true)) === false) {
+            if ($this->isRecoveryValid($recover, json_decode(auth()->user()->user2fa->recovery, true)) === false) {
                 $data['error'] = 'Recovery key is invalid.';
 
                 return view('google2fa::authenticate', $data);
@@ -107,12 +118,17 @@ class Google2fa extends Tool
                 ->setChars(config('lifeonscreen2fa.recovery_codes.chars_in_block'))
                 ->toArray();
 
+            $recoveryHashes = $data['recovery'];
+            array_walk($recoveryHashes, function (&$value) {
+                $value = password_hash($value, config('lifeonscreen2fa.recovery_codes.hashing_algorithm'));
+            });
+
             User2fa::where('user_id', auth()->user()->id)->delete();
 
             $user2fa = new User2fa();
             $user2fa->user_id = auth()->user()->id;
             $user2fa->google2fa_secret = $secretKey;
-            $user2fa->recovery = json_encode($data['recovery']);
+            $user2fa->recovery = json_encode($recoveryHashes);
             $user2fa->save();
 
             return response(view('google2fa::recovery', $data));
