@@ -6,8 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
- * Class PasswordSecurity
- * @package App\GraphQL\Models\User
+ * Class User2fa
+ * @package Lifeonscreen\Google2fa\Models
  */
 class User2fa extends Model
 {
@@ -15,8 +15,6 @@ class User2fa extends Model
      * @var string
      */
     protected $table   = 'user_2fa';
-
-    protected $guarded = [];
 
     /**
      * @return BelongsTo
