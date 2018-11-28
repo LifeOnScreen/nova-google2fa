@@ -3,7 +3,6 @@
 namespace Lifeonscreen\Google2fa;
 
 use Laravel\Nova\Tool;
-use Lifeonscreen\Google2fa\Models\User2fa;
 use PragmaRX\Google2FA\Google2FA as G2fa;
 use PragmaRX\Recovery\Recovery;
 use Request;
@@ -123,9 +122,10 @@ class Google2fa extends Tool
                 $value = password_hash($value, config('lifeonscreen2fa.recovery_codes.hashing_algorithm'));
             });
 
-            User2fa::where('user_id', auth()->user()->id)->delete();
+            $user2faModel = config('lifeonscreen2fa.models.user2fa');
 
-            $user2fa = new User2fa();
+            $user2faModel::where('user_id', auth()->user()->id)->delete();
+            $user2fa = new $user2faModel();
             $user2fa->user_id = auth()->user()->id;
             $user2fa->google2fa_secret = $secretKey;
             $user2fa->recovery = json_encode($recoveryHashes);

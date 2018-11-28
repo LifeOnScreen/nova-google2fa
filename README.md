@@ -97,6 +97,11 @@ return [
          * Change this variable to path to user model.
          */
         'user' => 'App\User',
+        
+        /**
+         * Change this if you need a custom connector
+         */
+        'user2fa' => User2fa::class,
     ],
     'tables' => [
         /**

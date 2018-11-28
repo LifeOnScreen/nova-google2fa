@@ -4,7 +4,6 @@ namespace Lifeonscreen\Google2fa\Http\Middleware;
 
 use Closure;
 use Lifeonscreen\Google2fa\Google2FAAuthenticator;
-use Lifeonscreen\Google2fa\Models\User2fa;
 use PragmaRX\Google2FA\Google2FA as G2fa;
 use PragmaRX\Recovery\Recovery;
 
@@ -46,9 +45,10 @@ class Google2fa
                 ->setChars(config('lifeonscreen2fa.recovery_codes.chars_in_block'))
                 ->toArray();
 
-            User2fa::where('user_id', auth()->user()->id)->delete();
+            $user2faModel = config('lifeonscreen2fa.models.user2fa');
+            $user2faModel::where('user_id', auth()->user()->id)->delete();
 
-            $user2fa = new User2fa();
+            $user2fa = new $user2faModel();
             $user2fa->user_id = auth()->user()->id;
             $user2fa->google2fa_secret = $secretKey;
             $user2fa->recovery = json_encode($data['recovery']);

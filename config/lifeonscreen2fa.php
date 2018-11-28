@@ -1,5 +1,7 @@
 <?php
 
+use Lifeonscreen\Google2fa\Models\User2fa;
+
 return [
     /**
      * Disable or enable middleware.
@@ -10,7 +12,12 @@ return [
         /**
          * Change this variable to path to user model.
          */
-        'user' => 'App\User',
+        'user'    => 'App\User',
+
+        /**
+         * Change this if you need a custom connector
+         */
+        'user2fa' => User2fa::class,
     ],
     'tables' => [
         /**
@@ -23,17 +30,17 @@ return [
         /**
          * Number of recovery codes that will be generated.
          */
-        'count'          => 8,
+        'count'             => 8,
 
         /**
          * Number of blocks in each recovery code.
          */
-        'blocks'         => 3,
+        'blocks'            => 3,
 
         /**
          * Number of characters in each block in recovery code.
          */
-        'chars_in_block' => 16,
+        'chars_in_block'    => 16,
 
         /**
          * The following algorithms are currently supported:
