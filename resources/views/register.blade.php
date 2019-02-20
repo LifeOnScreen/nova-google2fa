@@ -22,19 +22,20 @@
         }
     </style>
     <script>
-        function checkAutoSubmit(el) {
-            if (el.value.length === 6) {
-                document.getElementById('register_form').submit();
-            }
-        }
+		function checkAutoSubmit(el) {
+			if (el.value.length === 6) {
+				document.getElementById('register_form').submit();
+			}
+		}
     </script>
 </head>
 <body class="bg-40 text-black h-full">
 <div class="h-full">
     <div class="px-view py-view mx-auto">
-        <div class="mx-auto py-8 max-w-sm text-center text-90">
-            @include('nova::partials.logo')
-        </div>
+        {{-- Disabled because of issue: https://github.com/LifeOnScreen/nova-google2fa/issues/11 --}}
+        {{--<div class="mx-auto py-8 max-w-sm text-center text-90">--}}
+        {{--@include('nova::partials.logo')--}}
+        {{--</div>--}}
 
         <form id="register_form" class="bg-white shadow rounded-lg p-8 max-w-xl mx-auto" method="POST"
               action="/los/2fa/confirm">

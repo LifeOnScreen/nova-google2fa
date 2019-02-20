@@ -88,7 +88,7 @@ class Google2fa extends Tool
     private function isRecoveryValid($recover, $recoveryHashes)
     {
         foreach ($recoveryHashes as $recoveryHash) {
-            if (password_verify($recover, $recoveryHash)) {
+            if ($recover === $recoveryHash) {
                 return true;
             }
         }
