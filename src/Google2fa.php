@@ -19,32 +19,14 @@ class Google2fa extends Tool
     }
 
     /**
-     * @return bool
-     */
-    protected function is2FAValid()
-    {
-        $secret = Request::get('secret');
-        if (empty($secret)) {
-            return false;
-        }
-
-        $google2fa = new G2fa();
-        $google2fa->setAllowInsecureCallToGoogleApis(true);
-
-        return $google2fa->verifyKey(auth()->user()->user2fa->google2fa_secret, $secret);
-    }
-
-    /**
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\Http\RedirectResponse|\Illuminate\View\View
      * @throws \PragmaRX\Google2FA\Exceptions\InsecureCallException
      */
     public function confirm()
     {
-        if ($this->is2FAValid()) {
+        if (app(Google2FAAuthenticator::class)->isAuthenticated()) {
             auth()->user()->user2fa->google2fa_enable = 1;
             auth()->user()->user2fa->save();
-            $authenticator = app(Google2FAAuthenticator::class);
-            $authenticator->login();
 
             return response()->redirectTo(config('nova.path'));
         }
@@ -133,12 +115,11 @@ class Google2fa extends Tool
 
             return response(view('google2fa::recovery', $data));
         }
-        if ($this->is2FAValid()) {
-            $authenticator = app(Google2FAAuthenticator::class);
-            $authenticator->login();
 
+        if (app(Google2FAAuthenticator::class)->isAuthenticated()) {
             return response()->redirectTo(config('nova.path'));
         }
+
         $data['error'] = 'One time password is invalid.';
 
         return view('google2fa::authenticate', $data);
