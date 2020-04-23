@@ -15,7 +15,7 @@ class CreateUser2faTable extends Migration
     {
         Schema::create('user_2fa', function (Blueprint $table) {
             $table->increments('id');
-            $table->unsignedInteger('user_id');
+            $table->bigInteger('user_id')->unsigned();
             $table->boolean('google2fa_enable')->default(false);
             $table->string('google2fa_secret')->nullable();
             $table->text('recovery')->nullable();
