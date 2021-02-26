@@ -1,6 +1,6 @@
 {
-    "name": "lifeonscreen/nova-google2fa",
-    "description": "This package provides Google2FA to Laravel Nova.",
+    "name": "pitylee/nova-google2fa",
+    "description": "This package is a fork of Lifeonscreen\\Google2fa provides Google2FA to Laravel Nova.",
     "keywords": [
         "laravel",
         "nova"
