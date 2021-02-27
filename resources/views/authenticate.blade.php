@@ -60,6 +60,8 @@
                 document.getElementById('authenticate_form').submit();
             }
         }
+        
+        document.getElementById("secret").focus();
     </script>
 
 @endsection

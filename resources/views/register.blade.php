@@ -61,6 +61,8 @@
                 document.getElementById('register_form').submit();
             }
         }
+        
+        document.getElementById("secret").focus();
 
         document.getElementById('preload-qr').style.display = 'none';
         const qrSrc = document.getElementById('preload-qr').getAttribute('src');
