@@ -65,10 +65,12 @@
         document.getElementById("secret").focus();
 
         document.getElementById('preload-qr').style.display = 'none';
+        document.getElementById('preload-qr-loading').style.display = 'block';
         const qrSrc = document.getElementById('preload-qr').getAttribute('src');
 
         const img = new Image();
         img.onload = (e) => {
+            document.getElementById('preload-qr-loading').style.display = 'none';
             document.getElementById('preload-qr').src = qrSrc;
             document.getElementById('preload-qr').style.display = 'block';
         };
