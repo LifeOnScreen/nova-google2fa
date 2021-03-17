@@ -41,7 +41,7 @@ Upgrade guide is available [Here](docs/upgrade_to_1.0.0.md').
 Install via composer
 
 ``` bash
-$ composer require lifeonscreen/nova-google2fa
+$ composer require netsells/nova-google2fa
 ```
 
 Publish config and migrations
