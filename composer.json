@@ -1,5 +1,5 @@
 {
-    "name": "lifeonscreen/nova-google2fa",
+    "name": "netsells/nova-google2fa",
     "description": "This package provides Google2FA to Laravel Nova.",
     "keywords": [
         "laravel",
