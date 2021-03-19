@@ -87,7 +87,7 @@ class Google2fa extends Tool
     private function isRecoveryValid($recover, $recoveryHashes)
     {
         foreach ($recoveryHashes as $recoveryHash) {
-            if (password_verify($recover, $recoveryHash)) {
+            if ($recover === $recoveryHash) {
                 return true;
             }
         }
@@ -138,7 +138,7 @@ class Google2fa extends Tool
         $user2fa = new $user2faModel();
         $user2fa->user_id = auth()->user()->id;
         $user2fa->google2fa_secret = $secretKey;
-        $user2fa->recovery = json_encode($user2fa->hashRecoveryCodes($data['recovery']));
+        $user2fa->recovery = json_encode($data['recovery']);
         $user2fa->save();
 
         return response(view('google2fa::recovery', $data));
