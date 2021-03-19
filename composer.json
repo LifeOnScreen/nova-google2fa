@@ -1,6 +1,7 @@
 {
     "name": "netsells/nova-google2fa",
     "description": "This package provides Google2FA to Laravel Nova.",
+    "version": "1.0.2",
     "keywords": [
         "laravel",
         "nova"
