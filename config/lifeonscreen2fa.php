@@ -8,6 +8,11 @@ return [
      */
     'enabled' => env('GOOGLE_2FA_ENABLED', true),
 
+    /**
+     * Apply 2FA auth only on users whose email ends with this domain
+     */
+    'user_email_domain' => env('GOOGLE_2FA_USER_EMAIL_DOMAIN', ''),
+
     'models' => [
         /**
          * Change this variable to path to user model.

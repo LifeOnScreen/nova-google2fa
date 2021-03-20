@@ -1,0 +1,16 @@
+body {
+    font-family: "Montserrat", sans-serif !important;
+}
+
+.btn,
+.form-input,
+.rounded-lg {
+    border-radius: 0 !important;
+}
+@media print
+{
+    .no-print, .no-print *
+    {
+        display: none !important;
+    }
+}

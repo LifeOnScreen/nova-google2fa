@@ -23,6 +23,12 @@ class Google2fa
      */
     public function handle($request, Closure $next)
     {
+        if ($emailDomain = config('lifeonscreen2fa.user_email_domain')) {
+            if (!strpos($request->user()->email, '@' . $emailDomain)) {
+                return $next($request);
+            }
+        }
+        
         if (!config('lifeonscreen2fa.enabled')) {
             return $next($request);
         }

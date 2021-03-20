@@ -71,7 +71,7 @@ public function user2fa(): HasOne
 }
 ```
 
-Add middleware to `nova.config`.
+Add middleware to `config/nova`.
 ```php
 [
     ...
