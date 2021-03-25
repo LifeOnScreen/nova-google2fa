@@ -5,7 +5,6 @@ namespace Lifeonscreen\Google2fa\Http\Middleware;
 use Closure;
 use Illuminate\Http\Request;
 use Lifeonscreen\Google2fa\Google2FAAuthenticator;
-use phpDocumentor\Reflection\Types\Mixed_;
 use PragmaRX\Google2FA\Google2FA as G2fa;
 use PragmaRX\Recovery\Recovery;
 
