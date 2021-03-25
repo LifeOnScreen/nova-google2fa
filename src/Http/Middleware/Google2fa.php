@@ -72,7 +72,7 @@ class Google2fa
      * Set headers to NOT cache a page, used to prevent seeing a 2fa auth form
      * when user clicks on the back button multiple times after logging out.
      */
-    private function applyHeaders()
+    private function preventBrowserCaching(Response $response): void
     {
         header("Expires: Thu, 19 Nov 1981 08:52:00 GMT"); //Date in the past
         header("Cache-Control: no-store, no-cache, must-revalidate"); //HTTP/1.1
