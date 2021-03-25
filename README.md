@@ -44,7 +44,25 @@ Install via composer
 $ composer require netsells/nova-google2fa
 ```
 
-Publish config and migrations
+Publish config
+
+``` bash
+$ php artisan vendor:publish --provider="Lifeonscreen\Google2fa\ToolServiceProvider" --tag=lifeonscreen2fa.config
+```
+
+Publish migrations
+
+``` bash
+$ php artisan vendor:publish --provider="Lifeonscreen\Google2fa\ToolServiceProvider" --tag=migrations
+```
+
+Publish views (optional)
+
+``` bash
+$ php artisan vendor:publish --provider="Lifeonscreen\Google2fa\ToolServiceProvider" --tag=views
+```
+
+Or publish all in one go (optional)
 
 ``` bash
 $ php artisan vendor:publish --provider="Lifeonscreen\Google2fa\ToolServiceProvider"
