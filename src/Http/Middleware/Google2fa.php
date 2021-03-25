@@ -3,7 +3,9 @@
 namespace Lifeonscreen\Google2fa\Http\Middleware;
 
 use Closure;
+use Illuminate\Http\Request;
 use Lifeonscreen\Google2fa\Google2FAAuthenticator;
+use phpDocumentor\Reflection\Types\Mixed_;
 use PragmaRX\Google2FA\Google2FA as G2fa;
 use PragmaRX\Recovery\Recovery;
 
@@ -23,14 +25,24 @@ class Google2fa
      */
     public function handle($request, Closure $next)
     {
-        $this->applyHeaders();
+        $response = $this->doHandle($request, $next);
 
+        return $this->preventBrowserCaching($response);
+    }
+
+    /**
+     * @param Request $request
+     * @param Closure $next
+     * @return mixed
+     */
+    private function doHandle(Request $request, Closure $next)
+    {
         if ($emailDomain = config('lifeonscreen2fa.user_email_domain')) {
             if (!strpos($request->user()->email, '@' . $emailDomain)) {
                 return $next($request);
             }
         }
-        
+
         if (!config('lifeonscreen2fa.enabled')) {
             return $next($request);
         }
@@ -71,11 +83,16 @@ class Google2fa
     /**
      * Set headers to NOT cache a page, used to prevent seeing a 2fa auth form
      * when user clicks on the back button multiple times after logging out.
+     *
+     * @param mixed $response
+     * @return mixed
      */
-    private function preventBrowserCaching(Response $response): void
+    private function preventBrowserCaching($response)
     {
-        header("Expires: Thu, 19 Nov 1981 08:52:00 GMT"); //Date in the past
-        header("Cache-Control: no-store, no-cache, must-revalidate"); //HTTP/1.1
-        header("Pragma: no-cache"); //HTTP 1.0
+        $response->header("Expires", "Thu, 19 Nov 1981 08:52:00 GMT"); //Date in the past
+        $response->header("Cache-Control", "no-store, no-cache, must-revalidate"); //HTTP/1.1
+        $response->header("Pragma",  "no-cache"); //HTTP 1.0
+
+        return $response;
     }
 }
