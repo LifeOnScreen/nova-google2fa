@@ -30,7 +30,6 @@ class ToolServiceProvider extends ServiceProvider
                 __DIR__.'/../database/migrations/' => database_path('migrations')
             ], 'migrations');
 
-
             // Publishing the views.
             $this->publishes([
                 __DIR__.'/../resources/views' => resource_path('views/vendor/google2fa'),
