@@ -33,9 +33,10 @@
 <body class="bg-40 text-black h-full">
 <div class="h-full">
     <div class="px-view py-view mx-auto">
-        <div class="mx-auto py-8 max-w-sm text-center text-90">
+        <div class="mx-auto py-8 max-w-sm text-center text-90 bg-logo">
             @include('nova::partials.logo')
         </div>
+        <br>
 
         <form id="authenticate_form" class="bg-white shadow rounded-lg p-8 max-w-xl mx-auto" method="POST"
               action="/los/2fa/authenticate">
