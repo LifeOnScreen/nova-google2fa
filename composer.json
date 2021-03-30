@@ -16,8 +16,7 @@
     "require": {
         "php": ">=7.1.0",
         "bacon/bacon-qr-code": "^2.0",
-        "pragmarx/google2fa-laravel": "^0.2.0",
-        "netsells/recovery": "dev-master"
+        "pragmarx/google2fa-laravel": "v1.4.1"
     },
     "autoload": {
         "psr-4": {
