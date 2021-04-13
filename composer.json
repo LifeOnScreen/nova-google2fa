@@ -15,6 +15,7 @@
     ],
     "require": {
         "php": ">=7.4",
+        "ext-imagick": "*",
         "bacon/bacon-qr-code": "^2.0",
         "netsells/recovery": "1.0.0",
         "pragmarx/google2fa-laravel": "^1.4.0",

@@ -2,6 +2,10 @@
 
 This package enforces 2FA for Laravel Nova.
 
+## Dependencies
+* PHP 7.4 or higher
+* Imagik
+
 ## Flow
 
 ### Activation
