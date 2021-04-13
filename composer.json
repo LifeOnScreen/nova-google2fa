@@ -1,7 +1,7 @@
 {
     "name": "netsells/nova-google2fa",
     "description": "This package provides Google2FA to Laravel Nova.",
-    "version": "1.0.3",
+    "version": "1.1.0",
     "keywords": [
         "laravel",
         "nova"
@@ -14,11 +14,11 @@
         }
     ],
     "require": {
-        "php": ">=7.1.0",
+        "php": ">=7.4",
         "bacon/bacon-qr-code": "^2.0",
         "netsells/recovery": "1.0.0",
-        "pragmarx/google2fa-laravel": "^0.2.0",
-        "pragmarx/google2fa-qrcode": "^2.1"
+        "pragmarx/google2fa-laravel": "^1.4.0",
+        "pragmarx/google2fa-qrcode": "^1.0"
     },
     "autoload": {
         "psr-4": {
