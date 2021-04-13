@@ -24,6 +24,10 @@ class Google2fa
      */
     public function handle($request, Closure $next)
     {
+        if ($request->route()->getName() == 'nova.logout') {
+            return $next($request);
+        }
+
         $response = $this->doHandle($request, $next);
 
         return $this->preventBrowserCaching($response);
