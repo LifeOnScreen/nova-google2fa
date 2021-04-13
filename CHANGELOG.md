@@ -11,5 +11,5 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
     * PATCH version when you make backwards-compatible bug fixes.
 
 ## Major Versions
-* [1.1.0](#400---2021-04-13) - Adds support for PHP 8
+* [1.1.1](#400---2021-04-13) - Adds support for PHP 8
 
