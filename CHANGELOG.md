@@ -14,4 +14,5 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 * [1.1.1](#400---2021-04-13) - Adds support for PHP 8
 * [1.1.2](#400---2021-04-13) - Excludes logout from 2fa middleware
 * [1.1.3](#400---2021-04-13) - Fixes tag issue
+* [1.1.4](#400---2021-04-14) - Updates views
 
