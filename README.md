@@ -171,3 +171,5 @@ MIT license. Please see the [license file](docs/license.md) for more information
 [link-packagist]: https://packagist.org/packages/lifeonscreen/nova-google2fa
 [link-downloads]: https://packagist.org/packages/lifeonscreen/nova-google2fa
 [link-author]: https://github.com/LifeOnScreen
+
+Fork created and maintained by the [Netsells team](https://netsells.co.uk/)
