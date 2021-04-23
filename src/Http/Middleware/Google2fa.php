@@ -5,6 +5,7 @@ namespace Lifeonscreen\Google2fa\Http\Middleware;
 use Closure;
 use Illuminate\Http\Request;
 use Lifeonscreen\Google2fa\Google2FAAuthenticator;
+use Symfony\Component\HttpFoundation\StreamedResponse;
 use PragmaRX\Google2FA\Google2FA as G2fa;
 use PragmaRX\Recovery\Recovery;
 
@@ -14,6 +15,12 @@ use PragmaRX\Recovery\Recovery;
  */
 class Google2fa
 {
+    private const PREVENT_BROWSER_CACHE_HEADERS = [
+        "Expires" => "Thu, 19 Nov 1981 08:52:00 GMT", //Date in the past
+        "Cache-Control" => "no-store, no-cache, must-revalidate", //HTTP/1.1
+        "Pragma" => "no-cache", //HTTP 1.0
+    ];
+
     /**
      * Handle an incoming request.
      *
@@ -49,8 +56,10 @@ class Google2fa
         if (!config('lifeonscreen2fa.enabled')) {
             return $next($request);
         }
-        if ($request->path() === 'los/2fa/confirm' || $request->path() === 'los/2fa/authenticate'
-            || $request->path() === 'los/2fa/register') {
+        if (
+            $request->path() === 'los/2fa/confirm' || $request->path() === 'los/2fa/authenticate'
+            || $request->path() === 'los/2fa/register'
+        ) {
             return $next($request);
         }
         $authenticator = app(Google2FAAuthenticator::class)->boot($request);
@@ -58,7 +67,6 @@ class Google2fa
             return $next($request);
         }
         if (empty(auth()->user()->user2fa) || auth()->user()->user2fa->google2fa_enable === 0) {
-
             $google2fa = new G2fa();
             $recovery = new Recovery();
             $secretKey = $google2fa->generateSecretKey();
@@ -92,9 +100,16 @@ class Google2fa
      */
     private function preventBrowserCaching($response)
     {
-        $response->header("Expires", "Thu, 19 Nov 1981 08:52:00 GMT"); //Date in the past
-        $response->header("Cache-Control", "no-store, no-cache, must-revalidate"); //HTTP/1.1
-        $response->header("Pragma",  "no-cache"); //HTTP 1.0
+        // Required to allow file downloads in nova
+        $symfonyRequest = StreamedResponse::class;
+
+        foreach (self::PREVENT_BROWSER_CACHE_HEADERS as $key => $value) {
+            if ($response instanceof $symfonyRequest) {
+                $response->headers->set($key, $value);
+            } else {
+                $response->header($key, $value);
+            }
+        }
 
         return $response;
     }
