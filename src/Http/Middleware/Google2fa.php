@@ -4,6 +4,7 @@ namespace Lifeonscreen\Google2fa\Http\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;
+use Lifeonscreen\Google2fa\Google2fa as Google2faManager;
 use Lifeonscreen\Google2fa\Google2FAAuthenticator;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 use PragmaRX\Google2FA\Google2FA as G2fa;
@@ -53,12 +54,14 @@ class Google2fa
             }
         }
 
-        if (!config('lifeonscreen2fa.enabled')) {
+        if ( ! config('lifeonscreen2fa.enabled') || (config('lifeonscreen2fa.optional') && $request->user()->user2fa === null)) {
             return $next($request);
         }
         if (
-            $request->path() === 'los/2fa/confirm' || $request->path() === 'los/2fa/authenticate'
+            $request->path() === 'los/2fa/confirm'
+            || $request->path() === 'los/2fa/authenticate'
             || $request->path() === 'los/2fa/register'
+            || $request->path() === 'los/2fa/recovery'
         ) {
             return $next($request);
         }
@@ -67,6 +70,8 @@ class Google2fa
             return $next($request);
         }
         if (empty(auth()->user()->user2fa) || auth()->user()->user2fa->google2fa_enable === 0) {
+//            $google2FaManager = app(Google2faManager::class);
+//            return $google2FaManager->showRecoveryView();
             $google2fa = new G2fa();
             $recovery = new Recovery();
             $secretKey = $google2fa->generateSecretKey();

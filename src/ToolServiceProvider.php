@@ -55,6 +55,10 @@ class ToolServiceProvider extends ServiceProvider
         Route::middleware(['nova', Authorize::class])
             ->prefix('los/2fa')
             ->group(__DIR__ . '/../routes/api.php');
+
+        Route::middleware('web')
+            ->prefix('los/2fa')
+            ->group(__DIR__ . '/../routes/web.php');
     }
 
     /**
