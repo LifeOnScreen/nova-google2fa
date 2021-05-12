@@ -13,6 +13,8 @@ class Google2FAAuthenticator extends Authenticator
 {
     protected function canPassWithoutCheckingOTP()
     {
+        var_dump($this->getUser()->remember_token, $this->getUser()->toArray());
+        exit;
         return
             !$this->isEnabled() ||
             $this->noUserIsAuthenticated() ||
