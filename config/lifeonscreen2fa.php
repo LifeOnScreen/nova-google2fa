@@ -9,6 +9,16 @@ return [
     'enabled' => env('GOOGLE_2FA_ENABLED', true),
 
     /**
+     * Use only if user has configured to do so
+     */
+    'optional' => env('GOOGLE_2FA_OPTIONAL', false),
+
+    /**
+     * Display the secret code as an alternative to using the QR code
+     */
+    'display_secret_code' => env('GOOGLE_DISPLAY_SECRET_CODE', false),
+
+    /**
      * Apply 2FA auth only on users whose email ends with this domain
      */
     'user_email_domain' => env('GOOGLE_2FA_USER_EMAIL_DOMAIN', ''),

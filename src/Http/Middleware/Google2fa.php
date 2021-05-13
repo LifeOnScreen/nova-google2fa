@@ -54,7 +54,7 @@ class Google2fa
             }
         }
 
-        if ( ! config('lifeonscreen2fa.enabled') || (config('lifeonscreen2fa.optional') && $request->user()->user2fa === null)) {
+        if ( ! config('lifeonscreen2fa.enabled') || (config('lifeonscreen2fa.optional') && ($request->user()->user2fa === null || auth()->user()->user2fa->google2fa_enable === 0))) {
             return $next($request);
         }
         if (

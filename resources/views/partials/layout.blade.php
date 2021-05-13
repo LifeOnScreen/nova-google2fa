@@ -31,4 +31,19 @@
         </div>
     </div>
 </body>
+@isset ($displaySecretCode)
+    @if ($displaySecretCode)
+    <script type="application/javascript">
+        function copyCode()
+        {
+            let code = document.getElementById('secret_code');
+
+            code.select();
+            code.setSelectionRange(0, 99999);
+
+            document.execCommand('copy');
+        }
+    </script>
+    @endif
+@endisset
 </html>

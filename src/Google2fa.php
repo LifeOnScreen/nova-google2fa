@@ -68,6 +68,8 @@ class Google2fa extends Tool
         }
 
         $data['qrcode_image'] = $this->getQRCode();
+        $data['secret_code'] = auth()->user()->user2fa->google2fa_secret;
+        $data['displaySecretCode'] = config('lifeonscreen2fa.display_secret_code');
         $data['error'] = 'Secret is invalid.';
 
         return view('google2fa::register', $data);
@@ -80,6 +82,8 @@ class Google2fa extends Tool
     public function register()
     {
         $data['qrcode_image'] = $this->getQRCode();
+        $data['secret_code'] = auth()->user()->user2fa->google2fa_secret;
+        $data['displaySecretCode'] = config('lifeonscreen2fa.display_secret_code');
 
         return view('google2fa::register', $data);
     }

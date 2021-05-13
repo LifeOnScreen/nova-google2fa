@@ -36,6 +36,10 @@ This package enforces 2FA for Laravel Nova.
 
 - User is redirected to activation process.
 
+- Optional use
+
+If the `GOOGLE_2FA_OPTIONAL` environment parameter is set to true, 2fa will only be used if the user has configured their account to use it. In this case, you should provide a link to `'/los/2fa/recovery'` to allow the user to enable 2fa.
+
 ## Installation
 
 Install via composer
@@ -109,6 +113,16 @@ return [
      * Disable or enable middleware.
      */
     'enabled' => env('GOOGLE_2FA_ENABLED', true),
+    
+    /**
+     * Use only if user has configured to do so
+     */
+    'optional' => env('GOOGLE_2FA_OPTIONAL', false),
+
+    /**
+     * Display the secret code as an alternative to using the QR code
+     */
+    'display_secret_code' => env('GOOGLE_DISPLAY_SECRET_CODE', false),
 
     'models' => [
         /**
