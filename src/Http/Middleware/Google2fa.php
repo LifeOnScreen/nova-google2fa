@@ -70,8 +70,6 @@ class Google2fa
             return $next($request);
         }
         if (empty(auth()->user()->user2fa) || auth()->user()->user2fa->google2fa_enable === 0) {
-//            $google2FaManager = app(Google2faManager::class);
-//            return $google2FaManager->showRecoveryView();
             $google2fa = new G2fa();
             $recovery = new Recovery();
             $secretKey = $google2fa->generateSecretKey();
