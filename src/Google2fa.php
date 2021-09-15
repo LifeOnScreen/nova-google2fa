@@ -117,7 +117,7 @@ class Google2fa extends Tool
         }
 
         if (app(Google2FAAuthenticator::class)->isAuthenticated()) {
-            return response()->redirectTo(config('nova.path'));
+            return response()->redirectTo($_SERVER['HTTP_REFERER']);
         }
 
         $data['error'] = 'One time password is invalid.';
