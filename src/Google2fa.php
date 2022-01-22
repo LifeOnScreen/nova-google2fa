@@ -32,9 +32,8 @@ class Google2fa extends Tool
         }
 
         $google2fa = new G2fa();
-        $google2fa->setAllowInsecureCallToGoogleApis(true);
 
-        $google2fa_url = $google2fa->getQRCodeGoogleUrl(
+        $google2fa_url = $google2fa->getQRCodeUrl(
             config('app.name'),
             auth()->user()->email,
             auth()->user()->user2fa->google2fa_secret
@@ -53,9 +52,8 @@ class Google2fa extends Tool
     public function register()
     {
         $google2fa = new G2fa();
-        $google2fa->setAllowInsecureCallToGoogleApis(true);
 
-        $google2fa_url = $google2fa->getQRCodeGoogleUrl(
+        $google2fa_url = $google2fa->getQRCodeUrl(
             config('app.name'),
             auth()->user()->email,
             auth()->user()->user2fa->google2fa_secret
