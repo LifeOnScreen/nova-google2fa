@@ -3,7 +3,7 @@
 namespace Lifeonscreen\Google2fa;
 
 use Laravel\Nova\Tool;
-use PragmaRX\Google2FA\Google2FA as G2fa;
+use PragmaRX\Google2FAQRCode\Google2FA as G2fa;
 use PragmaRX\Recovery\Recovery;
 use Request;
 
@@ -33,7 +33,7 @@ class Google2fa extends Tool
 
         $google2fa = new G2fa();
 
-        $google2fa_url = $google2fa->getQRCodeUrl(
+        $google2fa_url = $google2fa->getQRCodeInline(
             config('app.name'),
             auth()->user()->email,
             auth()->user()->user2fa->google2fa_secret
@@ -53,7 +53,7 @@ class Google2fa extends Tool
     {
         $google2fa = new G2fa();
 
-        $google2fa_url = $google2fa->getQRCodeUrl(
+        $google2fa_url = $google2fa->getQRCodeInline(
             config('app.name'),
             auth()->user()->email,
             auth()->user()->user2fa->google2fa_secret

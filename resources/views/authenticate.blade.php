@@ -69,7 +69,7 @@
                     <div id="secret_div">
                         <label class="block font-bold mb-2" for="co">One Time Password</label>
                         <input class="form-control form-input form-input-bordered w-full" id="secret" type="number"
-                               name="secret" value="" onkeyup="checkAutoSubmit(this)" autofocus="">
+                               name="{{ config('google2fa.otp_input') }}" value="" onkeyup="checkAutoSubmit(this)" autofocus="">
                     </div>
                     <div id="recover_div" style="display: none;">
                         <label class="block font-bold mb-2" for="co">Recovery code</label>
