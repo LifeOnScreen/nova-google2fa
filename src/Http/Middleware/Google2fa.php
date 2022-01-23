@@ -51,7 +51,9 @@ class Google2fa
             $user2fa = new $user2faModel();
             $user2fa->user_id = auth()->user()->id;
             $user2fa->google2fa_secret = $secretKey;
-            $user2fa->recovery = json_encode($data['recovery']);
+            $user2fa->recovery = json_encode(array_map(function ($code) {
+                return password_hash($code, config('lifeonscreen2fa.recovery_codes.hashing_algorithm'));
+            }, $data['recovery']));
             $user2fa->save();
 
             return response(view('google2fa::recovery', $data));
