@@ -49,12 +49,12 @@
                     <div id="secret_div">
                         <label class="block font-bold mb-2" for="co">One Time Password</label>
                         <input class="w-full form-control form-input form-input-bordered" id="secret" type="number"
-                               name="{{ config('google2fa.otp_input') }}" value="" onkeyup="checkAutoSubmit(this)" placeholder="Enter the code..." autofocus="">
+                               name="{{ config('google2fa.otp_input') }}" value="" onkeyup="checkAutoSubmit(this)" placeholder="{{ __('Enter the code...') }}" autofocus="">
                     </div>
 
                     <div id="recover_div" style="display: none;">
                         <label class="block font-bold mb-2" for="co">Recovery code</label>
-                        <input class="w-full form-control form-input form-input-bordered" placeholder="Enter the recovery code..." id="recover" type="text"
+                        <input class="w-full form-control form-input form-input-bordered" placeholder="{{ __('Enter the recovery code...') }}" id="recover" type="text"
                                name="recover" value="" autofocus="">
                     </div>
                 </div>
