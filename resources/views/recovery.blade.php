@@ -9,25 +9,6 @@
 
     <!-- Styles -->
     <link rel="stylesheet" href="{{ mix('app.css', 'vendor/nova') }}">
-
-    <style>
-        body {
-            font-family: "Montserrat", sans-serif !important;
-        }
-
-        .btn,
-        .form-input,
-        .rounded-lg {
-            border-radius: 0 !important;
-        }
-        @media print
-        {
-            .no-print, .no-print *
-            {
-                display: none !important;
-            }
-        }
-    </style>
 </head>
 <body class="bg-40 text-black h-full">
 <div class="h-full">

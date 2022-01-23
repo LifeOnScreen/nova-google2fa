@@ -10,17 +10,6 @@
     <!-- Styles -->
     <link rel="stylesheet" href="{{ mix('app.css', 'vendor/nova') }}">
 
-    <style>
-        body {
-            font-family: "Montserrat", sans-serif !important;
-        }
-
-        .btn,
-        .form-input,
-        .rounded-lg {
-            border-radius: 0 !important;
-        }
-    </style>
     <script>
         function checkAutoSubmit(el) {
             if (el.value.length === 6) {
