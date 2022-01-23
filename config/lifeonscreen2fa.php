@@ -35,11 +35,11 @@ return [
         /**
          * Number of blocks in each recovery code.
          */
-        'blocks'            => 2,
+        'blocks'            => 3,
 
         /**
          * Number of characters in each block in recovery code.
          */
-        'chars_in_block'    => 10,
+        'chars_in_block'    => 16,
     ],
 ];
