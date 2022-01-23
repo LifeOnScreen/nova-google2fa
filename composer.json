@@ -8,6 +8,7 @@
     "license": "MIT",
     "require": {
         "php": ">=8.0.0",
+        "bacon/bacon-qr-code": "^2.0",
         "pragmarx/google2fa-laravel": "^2.0.1",
         "pragmarx/google2fa-qrcode": "^3.0",
         "pragmarx/recovery": "^0.2.0"
