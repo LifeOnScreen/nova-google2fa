@@ -3,9 +3,10 @@
 namespace Lifeonscreen\Google2fa;
 
 use Laravel\Nova\Tool;
+use PragmaRX\Google2FALaravel\Google2FA as Google2FALaravelGoogle2FA;
 use PragmaRX\Google2FAQRCode\Google2FA as G2fa;
 use PragmaRX\Recovery\Recovery;
-use Request;
+use Illuminate\Support\Facades\Request;
 
 class Google2fa extends Tool
 {
@@ -88,30 +89,31 @@ class Google2fa extends Tool
                 return view('google2fa::authenticate', $data);
             }
 
-            $google2fa = new G2fa();
-            $recovery = new Recovery();
-            $secretKey = $google2fa->generateSecretKey();
-            $data['recovery'] = $recovery
-                ->setCount(config('lifeonscreen2fa.recovery_codes.count'))
+            // When the user uses a recovery code, we're going to replace that single code with
+            // a new one. There's no need to reconfigure the Authenticator app.
+
+            $newCode = (new Recovery())
+                ->setCount(1)
                 ->setBlocks(config('lifeonscreen2fa.recovery_codes.blocks'))
                 ->setChars(config('lifeonscreen2fa.recovery_codes.chars_in_block'))
-                ->toArray();
+                ->toArray()[0];
 
-            $recoveryHashes = $data['recovery'];
-            array_walk($recoveryHashes, function (&$value) {
-                $value = password_hash($value, config('lifeonscreen2fa.recovery_codes.hashing_algorithm'));
-            });
+            auth()->user()->user2fa->forceFill([
+                'recovery' => json_encode(array_map(function ($code) use ($recover, $newCode) {
+                    if (! password_verify($recover, $code)) {
+                        return $code;
+                    }
 
-            $user2faModel = config('lifeonscreen2fa.models.user2fa');
+                    return password_hash($newCode, config('lifeonscreen2fa.recovery_codes.hashing_algorithm'));
+                }, json_decode(auth()->user()->user2fa->recovery, true))),
+            ])->save();
 
-            $user2faModel::where('user_id', auth()->user()->id)->delete();
-            $user2fa = new $user2faModel();
-            $user2fa->user_id = auth()->user()->id;
-            $user2fa->google2fa_secret = $secretKey;
-            $user2fa->recovery = json_encode($recoveryHashes);
-            $user2fa->save();
+            // If the user has authenticated with a recovery code,
+            // we can go ahead and authorize their session.
 
-            return response(view('google2fa::recovery', $data));
+            (new Google2FALaravelGoogle2FA(Request::instance()))->login();
+
+            return response()->redirectTo(config('nova.path'));
         }
 
         if (app(Google2FAAuthenticator::class)->isAuthenticated()) {
