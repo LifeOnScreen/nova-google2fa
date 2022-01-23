@@ -68,13 +68,7 @@ class Google2fa extends Tool
 
     private function isRecoveryValid($recover, $recoveryHashes)
     {
-        foreach ($recoveryHashes as $recoveryHash) {
-            if (password_verify($recover, $recoveryHash)) {
-                return true;
-            }
-        }
-
-        return false;
+        return in_array($recover, $recoveryHashes);
     }
 
     /**
@@ -83,7 +77,7 @@ class Google2fa extends Tool
     public function authenticate()
     {
         if ($recover = Request::get('recover')) {
-            if ($this->isRecoveryValid($recover, json_decode(auth()->user()->user2fa->recovery, true)) === false) {
+            if ($this->isRecoveryValid($recover, json_decode(decrypt(auth()->user()->user2fa->recovery), true)) === false) {
                 $data['error'] = 'Recovery key is invalid.';
 
                 return view('google2fa::authenticate', $data);
@@ -99,13 +93,11 @@ class Google2fa extends Tool
                 ->toArray()[0];
 
             auth()->user()->user2fa->forceFill([
-                'recovery' => json_encode(array_map(function ($code) use ($recover, $newCode) {
-                    if (! password_verify($recover, $code)) {
-                        return $code;
-                    }
-
-                    return password_hash($newCode, config('lifeonscreen2fa.recovery_codes.hashing_algorithm'));
-                }, json_decode(auth()->user()->user2fa->recovery, true))),
+                'recovery' => encrypt(str_replace(
+                    $recover,
+                    $newCode,
+                    decrypt(auth()->user()->user2fa->recovery)
+                )),
             ])->save();
 
             // If the user has authenticated with a recovery code,

@@ -35,19 +35,11 @@ return [
         /**
          * Number of blocks in each recovery code.
          */
-        'blocks'            => 3,
+        'blocks'            => 2,
 
         /**
          * Number of characters in each block in recovery code.
          */
-        'chars_in_block'    => 16,
-
-        /**
-         * The following algorithms are currently supported:
-         *  - PASSWORD_DEFAULT
-         *  - PASSWORD_BCRYPT
-         *  - PASSWORD_ARGON2I // available from php 7.2
-         */
-        'hashing_algorithm' => PASSWORD_BCRYPT,
+        'chars_in_block'    => 10,
     ],
 ];
