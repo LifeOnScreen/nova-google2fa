@@ -16,6 +16,26 @@
                 document.getElementById('authenticate_form').submit();
             }
         }
+
+        window.showRecoveryInput = function showRecoveryInput(el) {
+            document.getElementById('secret_div').style.display = 'none';
+            if (document.getElementById('error_text')) {
+                document.getElementById('error_text').style.display = 'none';
+            }
+            document.getElementById('recover_div').style.display = null;
+            document.getElementById('cancel-recover-button').style.display = null;
+            el.style.display = 'none';
+        };
+
+        window.cancelRecoveryInput = function cancelRecoveryInput(el) {
+            document.getElementById('secret_div').style.display = null;
+            if (document.getElementById('error_text')) {
+                document.getElementById('error_text').style.display = null;
+            }
+            document.getElementById('recover_div').style.display = 'none';
+            document.getElementById('recover-button').style.display = null;
+            el.style.display = 'none';
+        };
     </script>
 </head>
 <body class="bg-40 text-black h-full">
@@ -65,13 +85,7 @@
                     <button
                         id="recover-button"
                         onclick="
-                            document.getElementById('secret_div').style.display = 'none';
-                            if (document.getElementById('error_text')) {
-                                document.getElementById('error_text').style.display = 'none';
-                            }
-                            document.getElementById('recover_div').style.display = null;
-                            document.getElementById('cancel-recover-button').style.display = null;
-                            this.style.display = 'none';
+                            showRecoveryInput(this);
                             return false;
                         "
                         class="font-bold no-underline text-primary dim"
@@ -83,13 +97,7 @@
                         style="display: none;"
                         id="cancel-recover-button"
                         onclick="
-                            document.getElementById('secret_div').style.display = null;
-                            if (document.getElementById('error_text')) {
-                                document.getElementById('error_text').style.display = null;
-                            }
-                            document.getElementById('recover_div').style.display = 'none';
-                            document.getElementById('recover-button').style.display = null;
-                            this.style.display = 'none';
+                            cancelRecoveryInput(this);
                             return false;
                         "
                         class="font-bold no-underline text-primary dim"
