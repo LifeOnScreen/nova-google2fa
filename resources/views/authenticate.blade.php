@@ -56,7 +56,7 @@
                 Two factor authentication protects against phishing, social engineering and password brute force attacks
                 and secures your logins from attackers
                 exploiting weak or stolen credentials.</p>
-            <p class="p-2"><strong>Enter the pin from Google Authenticator Enable 2FA</strong></p>
+            <p class="p-2"><strong>Enter the pin from your Authenticator app</strong></p>
 
             <div class="text-center pt-3">
                 <div class="mb-6 w-1/2" style="display:inline-block">
