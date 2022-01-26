@@ -10,17 +10,6 @@
     <!-- Styles -->
     <link rel="stylesheet" href="{{ mix('app.css', 'vendor/nova') }}">
 
-    <style>
-        body {
-            font-family: "Montserrat", sans-serif !important;
-        }
-
-        .btn,
-        .form-input,
-        .rounded-lg {
-            border-radius: 0 !important;
-        }
-    </style>
     <script>
         function checkAutoSubmit(el) {
             if (el.value.length === 6) {
@@ -65,7 +54,7 @@
                     @endif
                     <label class="block font-bold mb-2" for="co">Secret</label>
                     <input class="form-control form-input form-input-bordered w-full" id="secret" type="number"
-                           name="secret" value="" required="required" onkeyup="checkAutoSubmit(this)" autofocus="">
+                           name="{{ config('google2fa.otp_input') }}" value="" required="required" onkeyup="checkAutoSubmit(this)" autofocus="">
                 </div>
                 <button class="w-1/2 btn btn-default btn-primary hover:bg-primary-dark" type="submit">
                     Confirm

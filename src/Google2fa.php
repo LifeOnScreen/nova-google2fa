@@ -3,9 +3,10 @@
 namespace Lifeonscreen\Google2fa;
 
 use Laravel\Nova\Tool;
-use PragmaRX\Google2FA\Google2FA as G2fa;
+use PragmaRX\Google2FALaravel\Google2FA as Google2FALaravelGoogle2FA;
+use PragmaRX\Google2FAQRCode\Google2FA as G2fa;
 use PragmaRX\Recovery\Recovery;
-use Request;
+use Illuminate\Support\Facades\Request;
 
 class Google2fa extends Tool
 {
@@ -32,9 +33,8 @@ class Google2fa extends Tool
         }
 
         $google2fa = new G2fa();
-        $google2fa->setAllowInsecureCallToGoogleApis(true);
 
-        $google2fa_url = $google2fa->getQRCodeGoogleUrl(
+        $google2fa_url = $google2fa->getQRCodeInline(
             config('app.name'),
             auth()->user()->email,
             auth()->user()->user2fa->google2fa_secret
@@ -53,9 +53,8 @@ class Google2fa extends Tool
     public function register()
     {
         $google2fa = new G2fa();
-        $google2fa->setAllowInsecureCallToGoogleApis(true);
 
-        $google2fa_url = $google2fa->getQRCodeGoogleUrl(
+        $google2fa_url = $google2fa->getQRCodeInline(
             config('app.name'),
             auth()->user()->email,
             auth()->user()->user2fa->google2fa_secret
@@ -69,13 +68,7 @@ class Google2fa extends Tool
 
     private function isRecoveryValid($recover, $recoveryHashes)
     {
-        foreach ($recoveryHashes as $recoveryHash) {
-            if (password_verify($recover, $recoveryHash)) {
-                return true;
-            }
-        }
-
-        return false;
+        return in_array($recover, $recoveryHashes);
     }
 
     /**
@@ -84,36 +77,35 @@ class Google2fa extends Tool
     public function authenticate()
     {
         if ($recover = Request::get('recover')) {
-            if ($this->isRecoveryValid($recover, json_decode(auth()->user()->user2fa->recovery, true)) === false) {
+            if ($this->isRecoveryValid($recover, json_decode(decrypt(auth()->user()->user2fa->recovery), true)) === false) {
                 $data['error'] = 'Recovery key is invalid.';
 
                 return view('google2fa::authenticate', $data);
             }
 
-            $google2fa = new G2fa();
-            $recovery = new Recovery();
-            $secretKey = $google2fa->generateSecretKey();
-            $data['recovery'] = $recovery
-                ->setCount(config('lifeonscreen2fa.recovery_codes.count'))
+            // When the user uses a recovery code, we're going to replace that single code with
+            // a new one. There's no need to reconfigure the Authenticator app.
+
+            $newCode = (new Recovery())
+                ->setCount(1)
                 ->setBlocks(config('lifeonscreen2fa.recovery_codes.blocks'))
                 ->setChars(config('lifeonscreen2fa.recovery_codes.chars_in_block'))
-                ->toArray();
+                ->toArray()[0];
 
-            $recoveryHashes = $data['recovery'];
-            array_walk($recoveryHashes, function (&$value) {
-                $value = password_hash($value, config('lifeonscreen2fa.recovery_codes.hashing_algorithm'));
-            });
+            auth()->user()->user2fa->forceFill([
+                'recovery' => encrypt(str_replace(
+                    $recover,
+                    $newCode,
+                    decrypt(auth()->user()->user2fa->recovery)
+                )),
+            ])->save();
 
-            $user2faModel = config('lifeonscreen2fa.models.user2fa');
+            // If the user has authenticated with a recovery code,
+            // we can go ahead and authorize their session.
 
-            $user2faModel::where('user_id', auth()->user()->id)->delete();
-            $user2fa = new $user2faModel();
-            $user2fa->user_id = auth()->user()->id;
-            $user2fa->google2fa_secret = $secretKey;
-            $user2fa->recovery = json_encode($recoveryHashes);
-            $user2fa->save();
+            (new Google2FALaravelGoogle2FA(Request::instance()))->login();
 
-            return response(view('google2fa::recovery', $data));
+            return response()->redirectTo(config('nova.path'));
         }
 
         if (app(Google2FAAuthenticator::class)->isAuthenticated()) {

@@ -51,7 +51,7 @@ class Google2fa
             $user2fa = new $user2faModel();
             $user2fa->user_id = auth()->user()->id;
             $user2fa->google2fa_secret = $secretKey;
-            $user2fa->recovery = json_encode($data['recovery']);
+            $user2fa->recovery = encrypt(json_encode($data['recovery']));
             $user2fa->save();
 
             return response(view('google2fa::recovery', $data));

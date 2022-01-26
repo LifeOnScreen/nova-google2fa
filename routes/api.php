@@ -16,3 +16,5 @@ Route::post('confirm', 'Lifeonscreen\Google2fa\Google2fa@confirm');
  * This route is called to verify users secret
  */
 Route::post('authenticate', 'Lifeonscreen\Google2fa\Google2fa@authenticate');
+
+Route::post('unlocked-recovery-codes', 'Lifeonscreen\Google2fa\Http\Controllers\UnlockedRecoveryCodesController@store');
