@@ -21,6 +21,6 @@ class User2fa extends Model
      */
     public function user(): BelongsTo
     {
-        return $this->belongsTo(config('lifeonscreen2fa.models.user'));
+        return $this->belongsTo(config('lifeonscreen2fa.models.user'),config('lifeonscreen2fa.tables.foreign'));
     }
 }

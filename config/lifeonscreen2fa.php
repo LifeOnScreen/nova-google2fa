@@ -24,6 +24,10 @@ return [
          * Table in which users are stored.
          */
         'user' => 'users',
+        /**
+         * Foreign column of model
+         */
+        'foreign' => 'user_id',
     ],
 
     'recovery_codes' => [

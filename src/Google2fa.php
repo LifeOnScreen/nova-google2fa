@@ -106,9 +106,9 @@ class Google2fa extends Tool
 
             $user2faModel = config('lifeonscreen2fa.models.user2fa');
 
-            $user2faModel::where('user_id', auth()->user()->id)->delete();
+            $user2faModel::where(config('lifeonscreen2fa.tables.foreign'), auth()->user()->id)->delete();
             $user2fa = new $user2faModel();
-            $user2fa->user_id = auth()->user()->id;
+            $user2fa->{config('lifeonscreen2fa.tables.foreign')} = auth()->user()->id;
             $user2fa->google2fa_secret = $secretKey;
             $user2fa->recovery = json_encode($recoveryHashes);
             $user2fa->save();
