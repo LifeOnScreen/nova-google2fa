@@ -15,13 +15,13 @@ class CreateUser2faTable extends Migration
     {
         Schema::create('user_2fa', function (Blueprint $table) {
             $table->increments('id');
-            $table->unsignedInteger('user_id');
+            $table->unsignedInteger(config('lifeonscreen2fa.tables.foreign'));
             $table->boolean('google2fa_enable')->default(false);
             $table->string('google2fa_secret')->nullable();
             $table->text('recovery')->nullable();
             $table->timestamps();
 
-            $table->foreign('user_id')
+            $table->foreign(config('lifeonscreen2fa.tables.foreign'))
                 ->references('id')
                 ->on(config('lifeonscreen2fa.tables.user'));
         });

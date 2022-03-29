@@ -67,7 +67,7 @@ use Lifeonscreen\Google2fa\Models\User2fa;
  */
 public function user2fa(): HasOne
 {
-    return $this->hasOne(User2fa::class);
+    return $this->hasOne(User2fa::class); // You may pass the foreign and local key
 }
 ```
 
